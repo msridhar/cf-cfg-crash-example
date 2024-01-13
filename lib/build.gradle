@@ -8,7 +8,10 @@
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
+    id 'org.checkerframework' version '0.6.37'
 }
+
+apply plugin: 'org.checkerframework'
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -16,6 +19,9 @@ repositories {
 }
 
 dependencies {
+
+    implementation 'org.apache.spark:spark-sql_2.12:3.3.2'
+
     // Use JUnit test framework.
     testImplementation libs.junit
 
@@ -24,6 +30,10 @@ dependencies {
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation libs.guava
+
+    compileOnly 'org.checkerframework:checker-qual:3.42.0'
+    testCompileOnly 'org.checkerframework:checker-qual:3.42.0'
+    checkerFramework 'org.checkerframework:checker:3.42.0'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -31,4 +41,10 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
+}
+
+checkerFramework {
+    checkers = [
+            'org.checkerframework.checker.nullness.NullnessChecker',
+    ]
 }

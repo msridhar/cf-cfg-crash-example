@@ -3,8 +3,23 @@
  */
 package net.sridharan.cfgcrash;
 
+import org.apache.spark.sql.SparkSession;
+
 public class Library {
     public boolean someLibraryMethod() {
         return true;
+    }
+
+    private X run() {
+        try (SparkSession session = SparkSession.builder().getOrCreate()) {
+            X x = new X(session);
+            return x;
+        }
+    }
+
+    static class X {
+        X(SparkSession session) {
+
+        }
     }
 }
